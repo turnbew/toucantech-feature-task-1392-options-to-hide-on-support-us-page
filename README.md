@@ -25,6 +25,14 @@ ADDED NEW FILES
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_buttons.php
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_donors.php
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_donors_no_buttons.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_single.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_buttons.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_donors.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_hearts.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_donors_no_buttons.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_hearts_no_buttons.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_hearts_no_donors.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_hearts_no_donors_no_buttons.php
 
 CHANGES
  
@@ -61,6 +69,7 @@ CHANGES
 					FROM: <?php if ( ! empty($campaign->subscribers) ) { ?>
 					TO: <?php if ( ! empty($campaign->subscribers) and (string)Settings::get('support_us_donors_list') == '1' ) { ?>
 
+						
 				III.  
 					ADDED CODE: 
 					
@@ -75,6 +84,22 @@ CHANGES
 						....
 						<?php endif; ?> 
 					
+				V. CHANGED CODE: 
+				
+					FROM:  
+						
+						<?php  foreach ($campaigns as $campaign) : ?>
+							 ..... THERE WAS A LOTS OF STUFFS HERE ... that content in file: \network-site\addons\default\modules\fundraising\views\partials\campaign_single.orig
+						<?php endforeach; ?>
+					
+					TO: 
+					
+						<?php  foreach ($campaigns as $campaign) : ?>
+							 <?php $this->load->view('partials/campaign_single' . $extraViewFileName, array('campaign' => $campaign))?>
+						<?php endforeach; ?>
+				
+	
+	
 	
 		\network-site\addons\default\modules\network_settings\js\supportus_editor.js
 		
@@ -179,13 +204,16 @@ CHANGES
 						
 						$result = $this->db->set('value', $value)->where('slug', $slug)->update('settings');
 
+						$switchEnabled = ($value == '1') ? lang('support_us:label:enabled') : lang('support_us:label:disabled');
+						$section = str_replace('_', ' ', str_replace('support_us_', '', $slug));
+						
 						echo json_encode(array(
 							'result' => $result,
 							'value' => $value,
 							'btnLabel' => ($value == '1') ? lang('support_us:label:disable') : lang('support_us:label:enable'),
-							'btnStatus' => ($value == '1') ? lang('support_us:label:enabled') : lang('support_us:label:disabled'),
-							'header' => lang('support_us:title:update_result'),
-							'msg' => $result ? lang('support_us:msg:update_success') : lang('support_us:msg:update_failed'),
+							'btnStatus' => $switchEnabled,
+							'header' => sprintf(lang('support_us:title:update_result'), $section),
+							'msg' => sprintf(lang('support_us:msg:update_result'), ucfirst($section), $switchEnabled),
 						));
 					} //END function ajax_support_us_toggle
 		
