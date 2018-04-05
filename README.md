@@ -25,6 +25,14 @@ ADDED NEW FILES
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_buttons.php
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_donors.php
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_donors_no_buttons.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_buttons.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_donors.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_hearts.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_donors_no_buttons.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_hearts_no_buttons.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_hearts_no_donors.php
+	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_hearts_no_donors_no_buttons.php	
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_single.php
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_buttons.php
 	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_donors.php
@@ -37,6 +45,19 @@ ADDED NEW FILES
 CHANGES
  
 	IN FILES: 
+	
+		\network-site\addons\default\themes\toucantechV2\css\supportus.css
+		
+			ADDED CODE: 
+			
+				.target-total {
+				  margin-top: 10px;
+				  font-weight: 700;
+				   margin-bottom: 10px;
+				}
+		
+		
+		
 
 		\network-site\addons\default\modules\fundraising\controllers\fundraising.php
 	
@@ -44,6 +65,7 @@ CHANGES
 			
 				//Determine which campaign partial view will be used
 				$extraViewFileName = "";
+				if ( Settings::get('support_us_target_values') == '0' ) $extraViewFileName .= "_no_values";
 				if ( Settings::get('support_us_hearts') == '0' ) $extraViewFileName = "_no_hearts";
 				if ( Settings::get('support_us_donors_list') == '0' ) $extraViewFileName .= "_no_donors";
 				if ( Settings::get('support_us_donate_buttons') == '0' ) $extraViewFileName .= "_no_buttons";
@@ -153,12 +175,13 @@ CHANGES
 			
 				Inside section 'div class="section supportUs-section'
 				
+				....
 					<div style="clear: both;"></div>
 					<?=$buttons['hearts']?>
 					<?=$buttons['donateButtons']?>
 					<?=$buttons['donorsList']?>
-			
-				....... 
+					<?=$buttons['targetValues']?>
+				.... 
 				
 				other ... to show modal
 			
@@ -242,7 +265,11 @@ CHANGES
 											? array('value' => '1', 'btnStyle' => 'btn-warning', 'btnLabel' => $disable, 'typeId' => 'donors_list', 'type' => 'donors list', 'btnStatus' => $enabled)
 											: array('value' => '0', 'btnStyle' => 'btn-success', 'btnLabel' => $enable, 'typeId' => 'donors_list', 'type' => 'donors list', 'btnStatus' => $disabled);
 					$buttons['donorsList'] = $this->load->view('content/partials/support_us_buttons', $buttonParams, true);
-					
+					#Get button for "Target values" toggling on (public) support us page 
+					$buttonParams = ( (bool)Settings::get('support_us_target_values') ) 
+											? array('value' => '1', 'btnStyle' => 'btn-warning', 'btnLabel' => $disable, 'typeId' => 'target_values', 'type' => 'target values', 'btnStatus' => $enabled)
+											: array('value' => '0', 'btnStyle' => 'btn-success', 'btnLabel' => $enable, 'typeId' => 'target_values', 'type' => 'target values', 'btnStatus' => $disabled);
+					$buttons['targetValues'] = $this->load->view('content/partials/support_us_buttons', $buttonParams, true);
 					..... 
 					
 					->set('buttons', $buttons)
@@ -303,7 +330,21 @@ CHANGES
 								'is_gui' => 1,
 								'module' => 'network_settings',
 							));
-						}			
+						}
+						if ( ! $this->db->value_exists('support_us_target_values', 'slug', $table )) {
+							$this->db->insert($table, array(
+								'slug' => 'support_us_target_values',
+								'title' => 'Display target values',
+								'description' => 'Display target values on support us page',
+								'`default`' => 1,
+								'`value`' => '1',
+								'type' => 'radio',
+								'`options`' => '1=Enabled|0=Disabled',
+								'is_required' => 0,
+								'is_gui' => 1,
+								'module' => 'network_settings',
+							));
+						}								
 					}
 				
 				INSIDE Function install 
@@ -336,6 +377,18 @@ CHANGES
 						'slug' => 'support_us_donors_list',
 						'title' => 'Display donors list',
 						'description' => 'Display donors list on support us page',
+						'`default`' => 1,
+						'`value`' => '1',
+						'type' => 'radio',
+						'`options`' => '1=Enabled|0=Disabled',
+						'is_required' => 0,
+						'is_gui' => 1,
+						'module' => 'network_settings',
+					),
+					array(
+						'slug' => 'support_us_target_values',
+						'title' => 'Display target values',
+						'description' => 'Display target values on support us page',
 						'`default`' => 1,
 						'`value`' => '1',
 						'type' => 'radio',
