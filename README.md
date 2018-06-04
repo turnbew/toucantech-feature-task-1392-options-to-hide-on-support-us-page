@@ -1,52 +1,52 @@
+FOR PRIVACY AND CODE PROTECTING REASONS THIS IS A SIMPLIFIED VERSION OF CHANGES AND NEW FEATURES
+
 TASK DATE (MEDIUM - LIGHT): 13.03.2018 - FINISHED: 14.03.2017
 
+TASK LEVEL: Medium (up)
 
-TASK SHORT DESCRIPTION: 1392 [
+TASK SHORT DESCRIPTION: 1424 [
 								Option to hide the heart, and/or donate button, and/or donors list 
 								from the campaign boxes on the Support Us page
 							]
-
-							
+				
 GITHUB REPOSITORY CODE: feature/task-1392-options-to-hide-on-support-us-page
 
-
-ORIGINAL WORK: https://github.com/BusinessBecause/network-site/tree/feature/task-1392-options-to-hide-on-support-us-page
-
+CHANGES
 
 ADDED NEW FILES
 
-	\network-site\assets\_commons\common_fns.js
-	\network-site\addons\default\modules\network_settings\language\english\support_us_lang.php
-	\network-site\addons\default\modules\network_settings\views\content\partials\support_us_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_donors.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_donors_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_donors.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_hearts_no_donors_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_donors.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_hearts.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_donors_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_hearts_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_hearts_no_donors.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_no_values_no_hearts_no_donors_no_buttons.php	
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_single.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_donors.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_hearts.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_donors_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_hearts_no_buttons.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_hearts_no_donors.php
-	\network-site\addons\default\modules\fundraising\views\partials\campaign_single_no_hearts_no_donors_no_buttons.php
+	common_fns.js
+	support_us_lang.php
+	support_us_buttons.php
+	campaign_no_buttons.php
+	campaign_no_donors.php
+	campaign_no_hearts.php
+	campaign_no_donors_no_buttons.php
+	campaign_no_hearts_no_buttons.php
+	campaign_no_hearts_no_donors.php
+	campaign_no_hearts_no_donors_no_buttons.php
+	campaign_no_values.php
+	campaign_no_values_no_buttons.php
+	campaign_no_values_no_donors.php
+	campaign_no_values_no_hearts.php
+	campaign_no_values_no_donors_no_buttons.php
+	campaign_no_values_no_hearts_no_buttons.php
+	campaign_no_values_no_hearts_no_donors.php
+	campaign_no_values_no_hearts_no_donors_no_buttons.php	
+	campaign_single.php
+	campaign_single_no_buttons.php
+	campaign_single_no_donors.php
+	campaign_single_no_hearts.php
+	campaign_single_no_donors_no_buttons.php
+	campaign_single_no_hearts_no_buttons.php
+	campaign_single_no_hearts_no_donors.php
+	campaign_single_no_hearts_no_donors_no_buttons.php
 
 CHANGES
  
 	IN FILES: 
 	
-		\network-site\addons\default\themes\toucantechV2\css\supportus.css
+		supportus.css
 		
 			ADDED CODE: 
 			
@@ -59,7 +59,7 @@ CHANGES
 		
 		
 
-		\network-site\addons\default\modules\fundraising\controllers\fundraising.php
+		fundraising.php
 	
 			ADDED CODE inside function supportus
 			
@@ -78,7 +78,7 @@ CHANGES
 				
 				
 	
-		\network-site\addons\default\modules\fundraising\views\supportus.php
+		supportus.php
 	
 			CHANGED CODE: 
 			
@@ -111,7 +111,7 @@ CHANGES
 					FROM:  
 						
 						<?php  foreach ($campaigns as $campaign) : ?>
-							 ..... THERE WAS A LOTS OF STUFFS HERE ... that content in file: \network-site\addons\default\modules\fundraising\views\partials\campaign_single.orig
+							 ..... THERE WAS A LOTS OF STUFFS HERE ... that content in file: campaign_single.orig
 						<?php endforeach; ?>
 					
 					TO: 
@@ -123,7 +123,7 @@ CHANGES
 	
 	
 	
-		\network-site\addons\default\modules\network_settings\js\supportus_editor.js
+		supportus_editor.js
 		
 			ADDED CODE:
 			
@@ -145,7 +145,7 @@ CHANGES
 						COMMON.disableButton(btnSelector);
 						
 						//Set value in DB with AJAX
-						AJAX.call('network_settings/content/ajax_support_us_toggle', {'slug' : slug, 'value' : value}, function(response) {
+						AJAX.call('..........ajax_support_us_toggle', {'slug' : slug, 'value' : value}, function(response) {
 							var res = $.parseJSON(response);
 							if (res['result'] == true) {
 								$this.html(res['btnLabel']);
@@ -168,7 +168,7 @@ CHANGES
 
 
 	
-		\network-site\addons\default\modules\network_settings\views\content\supportus.php
+	supportus.php
 		
 			ADDED CODE:
 			
@@ -208,7 +208,7 @@ CHANGES
 				
 				
 	
-		\network-site\addons\default\modules\network_settings\controllers\content.php
+		content.php
 		
 			ADDED CODE 
 			
@@ -278,7 +278,7 @@ CHANGES
 					
 				
 	
-		\network-site\addons\default\modules\network_settings\details.php
+		details.php
 		
 			ADDED CODE: 
 			
@@ -401,7 +401,7 @@ CHANGES
 				
 				
 	
-		\network-site\system\cms\config\asset.php
+		asset.php
 		
 			ADDED CODE: 
 			
